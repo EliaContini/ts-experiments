@@ -1,0 +1,99 @@
+@charset "utf-8";
+/*
+ * Author: Elia Contini <http://www.eliacontini.info>
+ */
+body {
+	font-family: sans-serif;
+	font-size: 4vmin;
+}
+
+input {
+	border: 0;
+	border-bottom: 1px dotted #d3d3d3;
+	border-radius: 0;
+	display: inline-block;
+	font-family: sans-serif;
+	font-size: 1em;
+	padding: .25em;
+	vertical-align: top;
+	width: 20em;
+}
+
+.hide {
+	display: none;
+}
+
+.to-do-list {
+	border: 1px solid #d3d3d3;
+}
+
+.to-do-list__header {
+	background-color: #eee;
+	border-bottom: 1px solid #d3d3d3;
+	font-weight: 300;
+	margin: 0;
+	padding: .15em .25em;
+}
+
+.to-do-list__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.to-do-list__item {
+	border-bottom: 1px solid #d3d3d3;
+	padding: .5em;
+}
+
+.to-do-list__item:last-child {
+	border-bottom: 0;
+}
+
+.to-do-list__button-bar {
+	background-color: #eee;
+	border-top: 1px solid #d3d3d3;
+	font-weight: 300;
+	margin: 0;
+	padding: .25em;
+	text-align: right;
+}
+
+.to-do-list__button {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 0;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.to-do-list__button:hover {
+	background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.to-do-list__button--left-spacer {
+	margin-left: 1em;
+}
+
+.to-do-list__button--add {
+	background-color: #5cb85c;
+	border-color: #4cae4c;
+	color: #fff;
+}
+
+.to-do-list__button--add:hover {
+	background-color: #449d44;
+    border-color: #398439;
+}
+
+.to-do-list__button--remove {
+	background-color: #d9534f;
+    border-color: #d43f3a;
+	color: #fff;
+}
+
+.to-do-list__button--remove:hover {
+	background-color: #c9302c;
+    border-color: #ac2925;
+}

@@ -4,7 +4,8 @@
  * 
  */
 
-import App = require("./ToDoList");
-
-var app = new App.ToDoList("app");
-app.startup();
+export interface List<T> {
+	add(T);
+	get(id: string);
+	remove(id: string);
+}

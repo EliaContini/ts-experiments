@@ -1,26 +1,16 @@
 @charset "utf-8";
 /*
  * Author: Elia Contini <http://www.eliacontini.info>
+ * License: see LICENSE file in the repository root
+ *
  */
 body {
 	font-family: sans-serif;
 	font-size: 4vmin;
 }
 
-input {
-	border: 0;
-	border-bottom: 1px dotted #d3d3d3;
-	border-radius: 0;
-	display: inline-block;
-	font-family: sans-serif;
-	font-size: 1em;
-	padding: .25em;
-	vertical-align: top;
-	width: 20em;
-}
-
 .hide {
-	display: none;
+	display: none !important;
 }
 
 .to-do-list {
@@ -48,6 +38,29 @@ input {
 
 .to-do-list__item:last-child {
 	border-bottom: 0;
+}
+
+.to-do-list__edit,
+.to-do-list__show {
+	display: inline;
+	vertical-align: middle;
+}
+
+.to-do-list__input {
+	border: 0;
+	border-bottom: 1px dotted #d3d3d3;
+	border-radius: 0;
+	display: inline-block;
+	font-family: sans-serif;
+	font-size: 1em;
+	padding: .25em;
+	vertical-align: top;
+	width: 20em;
+}
+
+.to-do-list__value--completed {
+	color: #d3d3d3;
+	text-decoration: line-through;
 }
 
 .to-do-list__button-bar {

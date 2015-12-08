@@ -1,4 +1,14 @@
-// http://www.typescriptlang.org/Handbook#modules-going-external
+/* 
+ * Author: Elia Contini <http://www.eliacontini.info>
+ * License: see LICENSE file in the repository root
+ * 
+ * More info about export
+ * http://www.typescriptlang.org/Handbook#modules-going-external
+ */
+
+import Collection = require("./collection/ListItem");
+import Item = require("./collection/ToDoItem");
+
 export class ToDoList {
 	
 	domNode: HTMLElement; // this member is public by default
@@ -7,11 +17,12 @@ export class ToDoList {
 	// members of the same class
 	// In JavaScript conventions say to name private members
 	// prefixing them with underscore (_)
+	private _data: Collection.ListItem<Item.ToDoItem>;
 	private _list: HTMLUListElement;
-	private _buttonAdd: HTMLButtonElement;
 	
 	constructor(id: string) {
 		this.domNode = document.getElementById(id);
+		this._data = new Collection.ListItem<Item.ToDoItem>();
 	}
 	
 	startup() {
@@ -32,11 +43,20 @@ export class ToDoList {
 		buttonBar.setAttribute("class", "to-do-list__button-bar");
 		container.appendChild(buttonBar);
 		
-		this._buttonAdd = document.createElement("button");
-		this._buttonAdd.innerHTML = "Add";
-		this._buttonAdd.setAttribute("class", "to-do-list__button to-do-list__button--add");
-		buttonBar.appendChild(this._buttonAdd);
-		this._buttonAdd.addEventListener(
+		var button = document.createElement("button");
+		button.innerHTML = "Completed";
+		button.setAttribute("class", "to-do-list__button");
+		buttonBar.appendChild(button);
+		button.addEventListener(
+			"click",
+			function(event: Event) { context.itemComplete(context._list, event); }, 
+			false
+		);
+		button = document.createElement("button");
+		button.innerHTML = "Add";
+		button.setAttribute("class", "to-do-list__button to-do-list__button--left-spacer to-do-list__button--add");
+		buttonBar.appendChild(button);
+		button.addEventListener(
 			"click",
 			function(event: Event) { context.itemAdd(context._list, event); }, 
 			false
@@ -46,9 +66,13 @@ export class ToDoList {
 	}
 	
 	itemAdd(list: HTMLUListElement, event: Event) {
+		var id = String(new Date().getTime());
 		var context = this;
 		var item = document.createElement("li");
 		item.setAttribute("class", "to-do-list__item");
+		var checkbox = document.createElement("input");
+		checkbox.setAttribute("type", "checkbox");
+		item.appendChild(checkbox);
 // edit mode
 		var edit = document.createElement("div");
 		edit.setAttribute("class", "to-do-list__edit");
@@ -61,6 +85,7 @@ export class ToDoList {
 		var button = document.createElement("button");
 		button.innerHTML = "Cancel";
 		button.setAttribute("class", "to-do-list__button to-do-list__button--left-spacer to-do-list__button--remove");
+		button.setAttribute("data-id", id);
 		edit.appendChild(button);
 		button.addEventListener(
 			"click",
@@ -71,6 +96,7 @@ export class ToDoList {
 		button = document.createElement("button");
 		button.innerHTML = "Save";
 		button.setAttribute("class", "to-do-list__button to-do-list__button--left-spacer to-do-list__button--add");
+		button.setAttribute("data-id", id);
 		edit.appendChild(button);
 		button.addEventListener(
 			"click",
@@ -88,6 +114,7 @@ export class ToDoList {
 		button = document.createElement("button");
 		button.innerHTML = "Delete";
 		button.setAttribute("class", "to-do-list__button to-do-list__button--left-spacer to-do-list__button--remove");
+		button.setAttribute("data-id", id);
 		show.appendChild(button);
 		button.addEventListener(
 			"click",
@@ -98,6 +125,7 @@ export class ToDoList {
 		button = document.createElement("button");
 		button.innerHTML = "Edit";
 		button.setAttribute("class", "to-do-list__button to-do-list__button--left-spacer to-do-list__button--add");
+		button.setAttribute("data-id", id);
 		show.appendChild(button);
 		button.addEventListener(
 			"click",
@@ -106,9 +134,32 @@ export class ToDoList {
 		);
 		
 		list.appendChild(item);
+		
+		var toDoItem = new Item.ToDoItem(id, checkbox, item);
+		this._data.add(toDoItem);
+	}
+	
+	itemComplete(list: HTMLUListElement, event: Event) {
+		var items = this._data.toArray();
+		var item = null;
+		var node = null;
+		for(var i = 0, length = items.length; i < length; i++) {
+			item = items[i];
+			node = item.node.querySelector(".to-do-list__value");
+			if(item.checkbox.checked) {
+				if(node.classList.contains("to-do-list__value--completed")) {
+					node.classList.remove("to-do-list__value--completed");
+				}
+				else {
+					node.classList.add("to-do-list__value--completed");
+				}	
+			}
+		}
 	}
 	
 	itemRemove(item: HTMLElement, event: Event) {
+		var id = (<HTMLElement> event.target).getAttribute("data-id");
+		this._data.remove(id);
 		this._list.removeChild(item);
 	}
 	

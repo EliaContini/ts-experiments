@@ -1,9 +1,7 @@
-ts-experiments
+TypeScript Experiments
 ==============
 
 ## Summary
-
-TypeScript Experiments
 
 Tested on Ubuntu 12.04 LTS, with Node.js 0.10.25, npm 1.3.10 and TypeScript 1.6.2
 
